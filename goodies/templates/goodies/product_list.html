@@ -1,0 +1,18 @@
+{% extends 'goodies/base.html' %}
+{%block content%}
+<h1>products</h1>
+	<ul>
+		{% for product in object_list %}
+		{{ forloop.counter }}
+		<li>{{ product.name}}</li>
+		<li>{{product.productcatergory}}</li>
+		<li>{{product.weight}}</li>
+		<li>{{product.quantity}}</li>
+		<li>{{product.date_created}}</li>
+		{% empty %}
+		<li>No products have been added</li>
+		{% endfor %}
+</ul>
+{%endblock%}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
