@@ -35,5 +35,20 @@ class homeview(View):
 	def get(self, request):
 		return render(request,'goodies/home.html')
 
+def stockall(request):
+	stock = product.objects.all()
+	for objects in stock:
+		if objects.name == objects.name and objects.productcatergory==objects.productcatergory and objects.weight==objects.weight:
+			quantity = objects.quantity + objects.quantity
+			print(objects.quantity)
+			print ('the total is ',quantity)
+		else:
+			pass
+
+	print ('the total is ',quantity)
+
+	return render(request, 'goodies/stockall.html')
+
+
 
 

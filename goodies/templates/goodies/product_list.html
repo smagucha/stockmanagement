@@ -1,18 +1,24 @@
 {% extends 'goodies/base.html' %}
+{%load staticfiles%}
 {%block content%}
 <h1>products</h1>
-	<ul>
+	<table border="2">
+	<tr><th>No</th><th>Name</th><th>catergory</th><th>weight/size</th><th>quantity</th><th>date created</th><th>last update</th><th>update</th><th>delete</th></tr>
 		{% for product in object_list %}
-		{{ forloop.counter }}
-		<li>{{ product.name}}</li>
-		<li>{{product.productcatergory}}</li>
-		<li>{{product.weight}}</li>
-		<li>{{product.quantity}}</li>
-		<li>{{product.date_created}}</li>
+		<tr>
+		<td>{{ forloop.counter }}</td>
+		<td><a href="{{ product.get_absolute_url }}">{{ product.name}}</a></td>
+		<td>{{product.productcatergory}}</td>
+		<td>{{product.weight}}</td>
+		<td>{{product.quantity}}</td>
+		<td>{{product.date_created}}</td>
+		<td>{{product.last_update}}</td>
+		<td><a href="updateproduct{{ product.get_absolute_url }}update">update</a></td>
+		<td><a href="deleteproduct{{ product.get_absolute_url }}delete">delete</a></td>
+		</tr>
 		{% empty %}
-		<li>No products have been added</li>
+		No products have been added]
 		{% endfor %}
-</ul>
+	</table>
 {%endblock%}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
