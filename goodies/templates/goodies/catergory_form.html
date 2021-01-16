@@ -2,9 +2,11 @@
 %load staticfiles %}
 {% load crispy_forms_tags %}
 {%block content%}
+{% if perms.goodies.add_catergory %}
 	<form method="post">
 		{% csrf_token %}
 		{{ form|crispy}}
 		<input type="submit" value="Save">
 	</form>
+{%endif%}
 {%endblock%}

@@ -1,39 +1,45 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .models import product, catergory
 from django.urls import reverse_lazy
 from django.views import View
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-class Productview(LoginRequiredMixin,CreateView):
+class Productview(PermissionRequiredMixin,CreateView):
+	permission_required = 'goodies.add_product'
 	model = product
 	fields ='__all__'
 	login_url = '/accounts/login'
 	
 	
-class Catergoryview(LoginRequiredMixin,CreateView):
+class Catergoryview(PermissionRequiredMixin,CreateView):
+	permission_required = 'goodies.add_catergory'
 	model = catergory
 	fields ='__all__'
 	success_url = reverse_lazy('catergory')
 	login_url = '/accounts/login'
 	
 
-class ProductUpdate(LoginRequiredMixin, UpdateView):
+class ProductUpdate(PermissionRequiredMixin, UpdateView):
+	permission_required = 'goodies.change_product'
 	model = product
 	fields = '__all__'
 	template_name_suffix = '_update_form'
 	login_url = '/accounts/login'
 	
 
-class productDelete(LoginRequiredMixin, DeleteView):
+class productDelete(PermissionRequiredMixin, DeleteView):
+	permission_required = 'goodies.delete_product'
 	model = product
 	success_url = reverse_lazy('productlist')
 	login_url = '/accounts/login'
 	
 
 class productlist(LoginRequiredMixin, ListView):
+	#permission_required = 'goodies.view_product'
 	model = product
 	login_url = '/accounts/login'
 	redirect_field_name = ''
