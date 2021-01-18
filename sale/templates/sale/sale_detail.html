@@ -1,8 +1,12 @@
 {%extends 'goodies/base.html'%}
 {%block content%}
-	<p><b>name: </b>{{ object.name }}</p>
-	<p><b>catergory: </b>{{ object.productcatergory }}</p>
-	<p><b>weight: </b>{{ object.weight }}</p>
-	<p><b>stock: </b> {{ object.quantity }}</p>
-	<p><b>date created</b> {{object.date_created}}</p>
-	{%endblock%}
+
+	<p>{{ object.name}}</p>
+	<p>{{object.buyer}}</p>
+	<p>{{object.buyercontact}}</p>
+	<p>{{object.clientemail}}</p>
+	<p>{{object.item}}</p>
+	<p>{{object.quantity}}</p>
+	<p>{{object.date}}</p>
+
+{%endblock%}

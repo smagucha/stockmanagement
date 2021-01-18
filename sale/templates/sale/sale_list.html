@@ -4,18 +4,23 @@
 <link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
 <h1>sale</h1>
 	<table border="2" id ='product'>
-	<tr><th>No</th><th>Name</th><th>buyer</th><th>buyer contact</th><th>client email</th><th>item</th><th>quantity</th><th>date</th></tr>
+	<tr><th>No</th><th>Name</th><th>buyer</th><th>buyer contact</th><th>client email</th><th>item</th><th>quantity</th><th>date</th><th>update</th><th>delete</th></tr>
 		{% for sale in object_list %}
 		<tr>
 		<td>{{ forloop.counter }}</td>
-		<td><a href="{{ product.get_absolute_url }}">{{ sale.name}}</a></td>
+		<td><a href="{{ sale.get_absolute_url }}">{{ sale.name}}</a></td>
 		<td>{{sale.buyer}}</td>
 		<td>{{sale.buyercontact}}</td>
 		<td>{{sale.clientemail}}</td>
 		<td>{{sale.item}}</td>
 		<td>{{sale.quantity}}</td>
 		<td>{{sale.date}}</td>
+		<td><a href="{% url 'update' sale.id  %}">update</a></td>
+		<td><a href="{% url 'delete' sale.id  %}">delete</a></td>
 		</tr>
 		{%endfor%}
 	</table>
 {%endblock%}
+
+<!--<td><a href="{{ edit.get_absolute_url}} " class="w3-button w3-grey">update</a></td>-->
+			<!--<td><a href="{% url 'deletecontact' edit.id  %}" class="w3-button w3-red">delete</a>-->
