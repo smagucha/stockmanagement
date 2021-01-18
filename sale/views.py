@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from .forms import saleform
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Sum
 
 
 	
@@ -43,4 +44,15 @@ class saleDetailView(LoginRequiredMixin, DetailView):
 	queryset = Sale.objects.all()
 	template_name = 'sale/sale_detail.html'
 	login_url='/accounts/login'
+
+
+def allsale(request):
+	title = 'ALL stock'
+	queryset=Sale.objects.values('name','item').annotate(Sum('quantity'))
+	print (queryset)
+	context = {
+	"title": title,
+	"queryset": queryset,
+	}
+	return render(request, "sale/allsale.html",context)
 
