@@ -1,3 +1,12 @@
 from django.db import models
+from django.contrib.auth.models import User
+from goodies.models import product
 
-# Create your models here.
+class Sale(models.Model):
+	name = models.ForeignKey(User, on_delete=models.CASCADE)
+	buyer = models.CharField(max_lenght= 100)
+	buyercontact= models.IntegerField()
+	clientemail = models.EmailField()
+	item = models.ForeignKey(product, on_delete = models.CASCADE)
+	quantity =models.PostiveIntegerField()
+	date = models.DateTimeField(auto_now_add = True, auto_now= False)
