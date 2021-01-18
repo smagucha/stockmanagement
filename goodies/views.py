@@ -7,6 +7,8 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Count
+from django.db.models import Sum
 
 class Productview(PermissionRequiredMixin,CreateView):
 	permission_required = 'goodies.add_product'
@@ -57,17 +59,23 @@ class homeview(LoginRequiredMixin, View):
 	
 
 def stockall(request):
-	stock = product.objects.all()
-	y = []
-	for objects in stock:
-		if objects.name == objects.name and objects.productcatergory==objects.productcatergory and objects.weight==objects.weight:
-			#quantity = objects.quantity + objects.quantity
-			y.append(objects.quantity)	
-		else:
-			pass
-	print(sum(y))
-
-	return render(request, 'goodies/stockall.html')
+	title = 'ALL stock'
+	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
+	"""
+	total = 0
+	for instance in queryset:
+		if instance.name==instance.name :
+			total += instance.quantity
+	print (total)
+	"""
+	print (queryset)
+	context = {
+	"title": title,
+	"queryset": queryset,
+	}
+	return render(request, "goodies/stockall.html",context)
+	
+	
 
 
 

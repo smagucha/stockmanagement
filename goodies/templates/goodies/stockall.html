@@ -1,3 +1,18 @@
 {% extends 'goodies/base.html' %}
+{% load staticfiles %}
 {% block content%}
+<link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<h1>products</h1>
+	<table border="2" id ='product'>
+	<tr><th>No</th><th>Name</th><th>catergory</th><th>weight/size</th><th>stock</th></tr>
+		{% for product in queryset %}
+		<tr>
+		<td>{{ forloop.counter }}</td>
+		<td>{{ product.name}}</td>
+		<td>{{product.productcatergory}}</td>
+		<td>{{product.weight}}</td>
+		<td>{{product.quantity__sum}}</td>
+		</tr>
+		{%endfor%}
+	</table>
 {%endblock%}
