@@ -1,0 +1,21 @@
+{% extends 'goodies/base.html' %}
+{%load staticfiles%}
+{%block content%}
+<link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<h1>sale</h1>
+	<table border="2" id ='product'>
+	<tr><th>No</th><th>Name</th><th>buyer</th><th>buyer contact</th><th>client email</th><th>item</th><th>quantity</th><th>date</th></tr>
+		{% for sale in object_list %}
+		<tr>
+		<td>{{ forloop.counter }}</td>
+		<td><a href="{{ product.get_absolute_url }}">{{ sale.name}}</a></td>
+		<td>{{sale.buyer}}</td>
+		<td>{{sale.buyercontact}}</td>
+		<td>{{sale.clientemail}}</td>
+		<td>{{sale.item}}</td>
+		<td>{{sale.quantity}}</td>
+		<td>{{sale.date}}</td>
+		</tr>
+		{%endfor%}
+	</table>
+{%endblock%}

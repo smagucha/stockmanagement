@@ -4,8 +4,6 @@ from goodies.views import(Productview, Catergoryview, ProductUpdate,
  productDelete, productlist, ProductDetailView, homeview)
 
 urlpatterns = [
-    
-
     path('productform', Productview.as_view()),
     path ('Catergoryform', Catergoryview.as_view(), name = 'catergory'),
     path('updateproduct/<int:pk>/update',ProductUpdate.as_view()),
