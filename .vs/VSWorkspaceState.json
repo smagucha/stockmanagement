@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\accounts"
+    "\\goodies"
   ],
-  "SelectedNode": "\\accounts\\forms.py",
+  "SelectedNode": "\\goodies\\views.py",
   "PreviewInSolutionExplorer": false
 }
