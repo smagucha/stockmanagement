@@ -8,6 +8,7 @@ from django.views import View
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Sum
+from sale.models import Sale
 
 class Productview(PermissionRequiredMixin,CreateView):
 	permission_required = 'goodies.add_product'
@@ -59,14 +60,26 @@ class homeview(LoginRequiredMixin, View):
 def stockall(request):
 	title = 'ALL sale'
 	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
-	print (queryset)
 	context = {
 	"title": title,
 	"queryset": queryset,
 	}
 	return render(request, "goodies/stockall.html",context)
 
-	
+def stocklow(request):
+	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
+	context ={
+	"queryset": queryset,
+	}
+	return render(request, 'goodies/lowstock.html',context)
+
+def highstock(request):
+	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
+	context ={
+	"queryset": queryset,
+	}
+	return render(request, 'goodies/toomuchstock.html',context)
+
 	
 
 

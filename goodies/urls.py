@@ -11,7 +11,9 @@ urlpatterns = [
     path('product-list', productlist.as_view(), name='productlist'),
     path('<int:pk>/', ProductDetailView.as_view(),  name='product-detail'),
     path('', homeview.as_view(),),
-    path('stockall', views.stockall) 
+    path('stockall', views.stockall),
+    path('lowstock', views.stocklow),
+     path('highstock', views.highstock),
 ]
    
 

@@ -1,0 +1,20 @@
+{% extends 'goodies/base.html' %}
+{% load static %}
+{% block content%}
+<link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<h1>products</h1>
+	<table border="2" id ='product'>
+	<tr><th>No</th><th>Name</th><th>catergory</th><th>sku</th><th>stock</th></tr>
+		{% for product in queryset %}
+			{% if product.quantity__sum < 100 %}
+				<tr>
+				<td>{{ forloop.counter }}</td>
+				<td>{{ product.name}}</td>
+				<td>{{product.productcatergory}}</td>
+				<td>{{product.weight}}</td>
+				<td>{{product.quantity__sum}}</td>
+				</tr>
+			{% endif %}
+		{%endfor%}
+	</table>
+{%endblock%}
