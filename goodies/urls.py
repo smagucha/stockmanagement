@@ -13,7 +13,11 @@ urlpatterns = [
     path('', homeview.as_view(),),
     path('stockall', views.stockall),
     path('lowstock', views.stocklow),
-     path('highstock', views.highstock),
+    path('highstock', views.highstock),
+    path('reports', views.reports),
+    path('pdfview',views.render_pdf_view),
+    #path('stockreport', views.stockreport)
+
 ]
    
 

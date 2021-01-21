@@ -1,0 +1,12 @@
+{% extends 'goodies/base.html' %}
+{% load static %}
+
+{% block content%}
+<br><br>
+<h1>stock</h1>
+<form method="POST" action="pdfview">
+        {% csrf_token %}
+        {{ form}}
+		<input type="submit" value="view stock pdf">
+</form>
+{%endblock%}
