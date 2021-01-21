@@ -58,7 +58,7 @@ ROOT_URLCONF = 'stock.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['goodies/templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,6 +127,8 @@ LOGIN_URL ='/accounts/login/'
 LOGOUT_URL = 'accounts/logout'
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL=''
-STATICFILES_DIR=(
-    os.path.join(BASE_DIR,'static')
-    )
+#STATICFILES_DIR=(
+#   os.path.join(BASE_DIR,'static')
+#    )
+STATIC_ROOT=os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
