@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.views.generic import Createview
-from .models import order
+from django.views.generic.edit import CreateView
 
-class Orderview(Createview):
-    model = Order
+from order.models import order
+
+class Orderview(CreateView):
+    model = order
     fields ='__all__'

@@ -1,4 +1,4 @@
-from django.urls import path, include 
+from django.urls import path, include
 from . import views
 from goodies.views import(Productview, Catergoryview, ProductUpdate,
  productDelete, productlist, ProductDetailView, homeview)
@@ -19,5 +19,3 @@ urlpatterns = [
     #path('stockreport', views.stockreport)
 
 ]
-   
-
