@@ -1,0 +1,33 @@
+{% extends 'order/base.html' %}
+{%load static%}
+{%block content%}
+<link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<h1>products</h1>
+	<table border="2" id ='product'>
+	<tr><th>No</th><th>buyer</th><th>email</th><th>phonenumber</th><th>product</th><th>date ordered</th>
+
+		<th>update</th>
+
+		<th>delete</th>
+
+		</tr>
+		{% for product in object_list %}
+		<tr>
+		<td>{{ forloop.counter }}</td>
+		<td><a href="{{ product.get_absolute_url }}">{{ product.buyer}}</a></td>
+		<td>{{product.email}}</td>
+		<td>{{product.phonenumber}}</td>
+		<td>{{product.product}}</td>
+		<td>{{product.dateordered }}</td>
+		{% if perms.goodies.dateordered  %}
+		<td><a href="updateorder{{ product.get_absolute_url }}update">update</a></td>
+		{%endif%}
+		{% if perms.goodies.delete_product %}
+		<td><a href="deleteorder{{ product.get_absolute_url }}delete">delete</a></td>
+		{% endif%}
+		</tr>
+		{% empty %}
+		No products have been added]
+		{% endfor %}
+	</table>
+{%endblock%}

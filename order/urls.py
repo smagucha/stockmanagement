@@ -6,5 +6,5 @@ urlpatterns = [
     path('updateorder/<int:pk>/update',orderupdate.as_view()),
     path('deleteorder/<int:pk>/delete', orderdelete.as_view()),
     path('orderlist', orderlist.as_view(), name= 'orderlist'),
-    path('<int:pk>/', orderdetail.as_view(),  name='order-detail'),
+    path('order/<int:pk>/', orderdetail.as_view(),  name='order-detail'),
     ]

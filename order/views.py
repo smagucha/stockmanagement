@@ -24,4 +24,4 @@ class orderlist(ListView):
 
 class orderdetail( DetailView):
 	queryset = order.objects.all()
-	template_name = 'order/product_detail.html'
+	template_name = 'order/order_detail.html'
