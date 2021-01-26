@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView,FormMixin
+from django.views.generic.edit import FormMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from .models import product, catergory
@@ -50,7 +51,7 @@ class productDelete(PermissionRequiredMixin, DeleteView):
 	
 
 class productlist(LoginRequiredMixin, ListView):
-	#permission_required = 'goodies.view_product'
+	
 	model = product
 	login_url = '/accounts/login'
 	redirect_field_name = ''
