@@ -14,4 +14,4 @@ class order(models.Model):
 		return reverse('order-detail', kwargs={'pk': self.pk})
 
 	def __str__(self):
-		return self.name
+		return self.buyer

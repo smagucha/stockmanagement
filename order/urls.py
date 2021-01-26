@@ -1,10 +1,10 @@
 from django.urls import path
 from . import views
-from order.views import Orderview
+from order.views import Orderview, orderupdate, orderdelete, orderlist,orderdetail
 urlpatterns = [
     path('Orderview',Orderview.as_view()),
-    path('updateorder/<int:pk>/update',ProductUpdate.as_view(),
-    path('deleteorder/<int:pk>/delete', productDelete.as_view()),
-    path('orderlist', productlist.as_view(), name='productlist')
-
-]
+    path('updateorder/<int:pk>/update',orderupdate.as_view()),
+    path('deleteorder/<int:pk>/delete', orderdelete.as_view()),
+    path('orderlist', orderlist.as_view(), name= 'orderlist'),
+    path('<int:pk>/', orderdetail.as_view(),  name='order-detail'),
+    ]

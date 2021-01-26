@@ -1,5 +1,8 @@
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView,UpdateView, DeleteView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from django.urls import reverse_lazy
 
 from order.models import order
 
@@ -13,7 +16,12 @@ class orderupdate(UpdateView):
 
 class orderdelete(DeleteView):
     model = order
-    success_url = reverse_lazy('oredrlist')
+    success_url = reverse_lazy('orderlist')
 
 class orderlist(ListView):
     model = order
+
+
+class orderdetail( DetailView):
+	queryset = order.objects.all()
+	template_name = 'order/product_detail.html'
