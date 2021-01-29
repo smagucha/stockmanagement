@@ -12,6 +12,8 @@ from sale.models import Sale
 from .forms import DateForm
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
+from datetime import datetime
+
 
 
 from django.http import HttpResponse
@@ -49,11 +51,24 @@ class productDelete(PermissionRequiredMixin, DeleteView):
 	login_url = '/accounts/login'
 
 
-class productlist(LoginRequiredMixin, ListView):
-
+class productlist(LoginRequiredMixin,FormMixin, ListView):
 	model = product
 	login_url = '/accounts/login'
 	redirect_field_name = ''
+	form_class = DateForm
+	def post(self, request, *args, **kwargs):
+		form = self.get_form()
+		if form.is_valid():
+			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
+			form.cleaned_data['end_date']))
+			print(queryset)
+			return HttpResponseRedirect('product-list')
+			print(queryset)
+		else:
+			form = DateForm
+			return render(request, 'product_list.html', {'form': form})    #return self.form_valid(form)
+
+
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
 	queryset = product.objects.all()

@@ -19,6 +19,7 @@ class orderdelete(DeleteView):
     success_url = reverse_lazy('orderlist')
 
 class orderlist(ListView):
+    
     model = order
 
 
