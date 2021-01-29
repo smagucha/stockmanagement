@@ -3,11 +3,6 @@
 {%block content%}
 <link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
 <h1>products</h1>
-<form method="post" >
-        {% csrf_token %}
-        {{ form}}
-		<input type="submit" value="submit">
-</form>
 	<table border="2" id ='product'>
 	<tr><th>No</th><th>Name</th><th>catergory</th><th>sku</th><th>quantity</th><th>date created</th><th>last update</th>
 		{% if perms.goodies.goodies.change_product %}

@@ -56,17 +56,17 @@ class productlist(LoginRequiredMixin,FormMixin, ListView):
 	login_url = '/accounts/login'
 	redirect_field_name = ''
 	form_class = DateForm
-	def post(self, request, *args, **kwargs):
-		form = self.get_form()
-		if form.is_valid():
-			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
-			form.cleaned_data['end_date']))
-			print(queryset)
-			return HttpResponseRedirect('product-list')
-			print(queryset)
-		else:
-			form = DateForm
-			return render(request, 'product_list.html', {'form': form})    #return self.form_valid(form)
+	# def post(self, request, *args, **kwargs):
+	# 	form = self.get_form()
+	# 	if form.is_valid():
+	# 		object_list = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
+	# 		form.cleaned_data['end_date']))
+	# 		print(object_list)
+	# 		return HttpResponseRedirect('product-list')
+	# 		#print(queryset)
+	# 	else:
+	# 		form = DateForm
+	# 		return render(request, 'goodies/product_list.html', {'form': form})    #return self.form_valid(form)
 
 
 
@@ -135,12 +135,8 @@ def reports(request):
 				form.cleaned_data['end_date']))
 			print(queryset, '\n')
 			form = DateForm()
-			return HttpResponseRedirect('pdfview')
+			return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
 	else:
+		queryset = product.objects.all()
 		form = DateForm()
-	return render (request, 'goodies/reports.html', {'form': form})
-"""
-def stockreport(request):
-	queryset = product.objects.filter(date_created__range=(date(2020,1,13), date(2021, 1, 16)))
-	return render(request, 'goodies/stockreport.html',{'queryset': queryset})
-"""
+		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
