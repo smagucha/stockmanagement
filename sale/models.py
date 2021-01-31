@@ -11,10 +11,9 @@ class Sale(models.Model):
 	item = models.ForeignKey(product, on_delete = models.CASCADE)
 	quantity =models.PositiveIntegerField()
 	date = models.DateTimeField(auto_now_add = True, auto_now= False)
-	
+
 	def get_absolute_url(self):
 		return reverse('sale-detail', kwargs={'pk': self.pk})
-	
-	def __str__(self):
-		return self.name
 
+	def __str__(self):
+		return str(self.name)

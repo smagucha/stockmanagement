@@ -13,9 +13,6 @@ from .forms import DateForm
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
 from datetime import datetime
-
-
-
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -125,8 +122,6 @@ def render_pdf_view(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
-
-
 def reports(request):
 	if request.method == 'POST':
 		form = DateForm(request.POST)
@@ -134,8 +129,8 @@ def reports(request):
 			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
 				form.cleaned_data['end_date']))
 			print(queryset, '\n')
-			form = DateForm()
-			return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
+		form = DateForm()
+		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
 	else:
 		queryset = product.objects.all()
 		form = DateForm()

@@ -8,5 +8,6 @@ urlpatterns =[
 	path('deletesale/<int:pk>/delete', saleDelete.as_view(), name='delete'),
     path('salelist', salelist.as_view(), name='salelist'),
     path('sale/<int:pk>/', saleDetailView.as_view(),  name='sale-detail'),
-    path('allsale', views.allsale,)
+    path('allsale', views.allsale,),
+	path('salereport', views.salereport),
 ]

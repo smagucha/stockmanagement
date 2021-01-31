@@ -1,0 +1,29 @@
+{% extends 'goodies/base.html' %}
+{% load static %}
+
+{% block content%}
+<br><br>
+<h1>stock</h1>
+<link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<form method="POST" action="salereport">
+        {% csrf_token %}
+        {{ form}}
+		<input type="submit" value="view stock pdf">
+</form>
+<table border="2" id ='product'>
+<tr><th>No</th><th>Name</th><th>buyer</th><th>buyer contact</th><th>email</th><th>item</th><th>quantity</th><th>date</th>
+  </tr>
+  {% for queryset in queryset %}
+  <tr>
+  <td>{{ forloop.counter }}</td>
+  <td>{{ queryset.name}}</td>
+  <td>{{queryset.buyer}}</td>
+  <td>{{queryset.buyercontact}}</td>
+  <td>{{queryset.clientemail}}</td>
+  <td>{{queryset.item}}</td>
+  <td>{{queryset.quantity}}</td>
+  <td>{{queryset.date}}</td>
+</tr>
+{% endfor %}
+</table>
+{%endblock%}

@@ -9,9 +9,10 @@ from .forms import saleform
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Sum
+from .forms import DateForm
 
 
-	
+
 class saleview(PermissionRequiredMixin,CreateView):
 	permission_required = 'sale.add_sale'
 	model = Sale
@@ -19,7 +20,7 @@ class saleview(PermissionRequiredMixin,CreateView):
 	login_url = '/accounts/login'
 
 
-	
+
 class SaleUpdate(PermissionRequiredMixin,UpdateView):
 	permission_required = 'sale.change_sale'
 	model = Sale
@@ -32,13 +33,13 @@ class saleDelete(PermissionRequiredMixin, DeleteView):
 	model = Sale
 	success_url = reverse_lazy('productlist')
 	login_url='/accounts/login'
-	
+
 
 
 class salelist(LoginRequiredMixin,ListView):
 	model = Sale
 	login_url='/accounts/login'
-	
+
 
 class saleDetailView(LoginRequiredMixin, DetailView):
 	queryset = Sale.objects.all()
@@ -56,3 +57,16 @@ def allsale(request):
 	}
 	return render(request, "sale/allsale.html",context)
 
+def salereport(request):
+	if request.method == 'POST':
+		form = DateForm(request.POST)
+		if form.is_valid():
+			queryset = Sale.objects.filter(date__range=(form.cleaned_data['start_date'],
+				form.cleaned_data['end_date']))
+			print(queryset, '\n')
+		form = DateForm()
+		return render (request, 'sale/salereport.html', {'form': form, 'queryset': queryset})
+	else:
+		queryset = Sale.objects.all()
+		form = DateForm()
+		return render (request, 'sale/salereport.html', {'form': form, 'queryset': queryset})
