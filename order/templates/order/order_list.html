@@ -1,4 +1,4 @@
-{% extends 'order/base.html' %}
+{% extends 'goodies/base.html' %}
 {%load static%}
 {%block content%}
 <link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
@@ -21,10 +21,10 @@
 		<td>{{product.product}}</td>
 		<td>{{product.dateordered }}</td>
 		{% if perms.goodies.dateordered  %}
-		<td><a href="updateorder{{ product.get_absolute_url }}update">update</a></td>
+		<td><a href="{{ product.get_absolute_url }}update">update</a></td>
 		{%endif%}
 		{% if perms.goodies.delete_product %}
-		<td><a href="deleteorder{{ product.get_absolute_url }}delete">delete</a></td>
+		<td><a href="{{ product.get_absolute_url }}delete">delete</a></td>
 		{% endif%}
 		</tr>
 		{% empty %}

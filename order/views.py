@@ -3,8 +3,15 @@ from django.views.generic.edit import CreateView,UpdateView, DeleteView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
-
+from  django.views import View
 from order.models import order
+
+class home(View):
+    def get(self, request):
+        return render(request, 'order/home.html')
+
+
+
 
 class Orderview(CreateView):
     model = order
@@ -19,7 +26,7 @@ class orderdelete(DeleteView):
     success_url = reverse_lazy('orderlist')
 
 class orderlist(ListView):
-    
+
     model = order
 
 
