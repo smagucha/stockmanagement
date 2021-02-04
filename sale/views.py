@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 from .forms import saleform
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from .forms import DateForm
 
@@ -36,9 +37,11 @@ class saleDelete(PermissionRequiredMixin, DeleteView):
 
 
 
-class salelist(LoginRequiredMixin,ListView):
+class salelist(PermissionRequiredMixin,ListView):
+	permission_required='sale.view_sale'
 	model = Sale
 	login_url='/accounts/login'
+
 
 
 class saleDetailView(LoginRequiredMixin, DetailView):
@@ -46,7 +49,7 @@ class saleDetailView(LoginRequiredMixin, DetailView):
 	template_name = 'sale/sale_detail.html'
 	login_url='/accounts/login'
 
-
+@login_required
 def allsale(request):
 	title = 'ALL stock'
 	queryset=Sale.objects.values('name','item').annotate(Sum('quantity'))
@@ -56,7 +59,8 @@ def allsale(request):
 	"queryset": queryset,
 	}
 	return render(request, "sale/allsale.html",context)
-
+	
+@login_required
 def salereport(request):
 	if request.method == 'POST':
 		form = DateForm(request.POST)

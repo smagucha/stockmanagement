@@ -5,31 +5,50 @@ from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 from  django.views import View
 from order.models import order
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
 
-class home(View):
+
+# class saleview(PermissionRequiredMixin,CreateView):
+# 	permission_required = 'sale.add_sale'
+# 	model = Sale
+# 	fields ='__all__'
+# 	login_url = '/accounts/login'
+class home(LoginRequiredMixin, View):
+    login_url = '/accounts/login'
     def get(self, request):
         return render(request, 'order/home.html')
 
 
 
 
-class Orderview(CreateView):
+class Orderview(PermissionRequiredMixin, CreateView):
+    permission_required = 'order.add_order'
     model = order
     fields ='__all__'
+    login_url = '/accounts/login'
 
-class orderupdate(UpdateView):
+class orderupdate(PermissionRequiredMixin, UpdateView):
     model = order
     fields ='__all__'
+    permission_required = 'order.change_order'
+    login_url = '/accounts/login'
 
-class orderdelete(DeleteView):
+class orderdelete(PermissionRequiredMixin, DeleteView):
     model = order
     success_url = reverse_lazy('orderlist')
+    permission_required = 'order.delete_order'
+    login_url = '/accounts/login'
 
-class orderlist(ListView):
-
+class orderlist(PermissionRequiredMixin,ListView):
     model = order
+    permission_required = 'order.view_order'
+    login_url = '/accounts/login'
 
 
-class orderdetail( DetailView):
+class orderdetail(PermissionRequiredMixin, DetailView):
 	queryset = order.objects.all()
 	template_name = 'order/order_detail.html'
+    #permission_required = 'order.view_order'
+    #login_url = '/accounts/login'
