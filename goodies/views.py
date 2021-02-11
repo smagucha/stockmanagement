@@ -135,3 +135,11 @@ def reports(request):
 		queryset = product.objects.all()
 		form = DateForm()
 		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
+def stockremaining(request):
+	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
+	queryset1=Sale.objects.values('name','item').annotate(Sum('quantity'))
+	#queryset2=Sale.objects.filter('name','item').annotate(Sum('quantity'))
+	#print(queryset2)
+	# for i in queryset[1]:
+	# 	print (i, '->', queryset[1])
+	return render(request, 'goodies/remainstock.html')

@@ -16,6 +16,7 @@ urlpatterns = [
     path('highstock', views.highstock),
     path('reports', views.reports),
     path('pdfview',views.render_pdf_view),
+    path('remainstock', views.stockremaining)
     #path('stockreport', views.stockreport)
 
 ]

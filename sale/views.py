@@ -59,7 +59,7 @@ def allsale(request):
 	"queryset": queryset,
 	}
 	return render(request, "sale/allsale.html",context)
-	
+
 @login_required
 def salereport(request):
 	if request.method == 'POST':
