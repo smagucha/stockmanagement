@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {%block content%}
 {% if perms.goodies.add_product %}
-	<form method="post">
+	<form method="post" class='uniForm'>
 		{% csrf_token %}
 		{{ form|crispy }}
 		<input type="submit" value="Save">

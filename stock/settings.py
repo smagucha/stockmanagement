@@ -142,6 +142,7 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+#CRISPY_TEMPLATE_PACK = 'uni_form'
 LOGIN_URL ='/accounts/login/'
 LOGOUT_URL = 'accounts/logout'
 STATIC_URL = '/static/'

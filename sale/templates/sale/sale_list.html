@@ -15,12 +15,9 @@
 		<td>{{sale.item}}</td>
 		<td>{{sale.quantity}}</td>
 		<td>{{sale.date}}</td>
-		<td><a href="{% url 'update' sale.id  %}">update</a></td>
-		<td><a href="{% url 'delete' sale.id  %}">delete</a></td>
+		<td><a href="{% url 'updatesale' sale.id  %}">update</a></td>
+		<td><a href="{% url 'deletesale' sale.id  %}">delete</a></td>
 		</tr>
 		{%endfor%}
 	</table>
 {%endblock%}
-
-<!--<td><a href="{{ edit.get_absolute_url}} " class="w3-button w3-grey">update</a></td>-->
-			<!--<td><a href="{% url 'deletecontact' edit.id  %}" class="w3-button w3-red">delete</a>-->

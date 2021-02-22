@@ -21,10 +21,10 @@
 		<td>{{product.product}}</td>
 		<td>{{product.dateordered }}</td>
 		{% if perms.goodies.dateordered  %}
-		<td><a href="{{ product.get_absolute_url }}update">update</a></td>
+		<td><a href="{% url 'updateorder' product.id %}">update</a></td>
 		{%endif%}
 		{% if perms.goodies.delete_product %}
-		<td><a href="{{ product.get_absolute_url }}delete">delete</a></td>
+		<td><a href="{% url 'deleteorder' product.id  %}delete">delete</a></td>
 		{% endif%}
 		</tr>
 		{% empty %}
