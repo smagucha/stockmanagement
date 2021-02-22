@@ -10,18 +10,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.contrib.auth.decorators import login_required
 
 
-# class saleview(PermissionRequiredMixin,CreateView):
-# 	permission_required = 'sale.add_sale'
-# 	model = Sale
-# 	fields ='__all__'
-# 	login_url = '/accounts/login'
 class home(LoginRequiredMixin, View):
     login_url = '/accounts/login'
     def get(self, request):
         return render(request, 'order/home.html')
-
-
-
 
 class Orderview(PermissionRequiredMixin, CreateView):
     permission_required = 'order.add_order'
@@ -47,8 +39,7 @@ class orderlist(PermissionRequiredMixin,ListView):
     login_url = '/accounts/login'
 
 
-class orderdetail(PermissionRequiredMixin, DetailView):
+class orderdetail(LoginRequiredMixin, DetailView):
 	queryset = order.objects.all()
 	template_name = 'order/order_detail.html'
-    #permission_required = 'order.view_order'
-    #login_url = '/accounts/login'
+   

@@ -53,19 +53,6 @@ class productlist(LoginRequiredMixin,FormMixin, ListView):
 	login_url = '/accounts/login'
 	redirect_field_name = ''
 	form_class = DateForm
-	# def post(self, request, *args, **kwargs):
-	# 	form = self.get_form()
-	# 	if form.is_valid():
-	# 		object_list = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
-	# 		form.cleaned_data['end_date']))
-	# 		print(object_list)
-	# 		return HttpResponseRedirect('product-list')
-	# 		#print(queryset)
-	# 	else:
-	# 		form = DateForm
-	# 		return render(request, 'goodies/product_list.html', {'form': form})    #return self.form_valid(form)
-
-
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
 	queryset = product.objects.all()
@@ -138,8 +125,6 @@ def reports(request):
 def stockremaining(request):
 	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
 	queryset1=Sale.objects.values('name','item').annotate(Sum('quantity'))
-	#queryset2=Sale.objects.filter('name','item').annotate(Sum('quantity'))
-	#print(queryset2)
-	# for i in queryset[1]:
-	# 	print (i, '->', queryset[1])
+	#print(queryset)
+	print(queryset,'\n')
 	return render(request, 'goodies/remainstock.html')
