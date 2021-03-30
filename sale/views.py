@@ -53,7 +53,6 @@ class saleDetailView(LoginRequiredMixin, DetailView):
 def allsale(request):
 	title = 'ALL stock'
 	queryset=Sale.objects.values('name','item').annotate(Sum('quantity'))
-	print (queryset)
 	context = {
 	"title": title,
 	"queryset": queryset,

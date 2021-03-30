@@ -5,7 +5,7 @@
 <h1>products</h1>
 
 	<table border="2" id ='product'>
-	<tr><th>No</th><th>buyer</th><th>email</th><th>phonenumber</th><th>product</th><th>date ordered</th>
+	<tr><th>No</th><th>buyer</th><th>email</th><th>phonenumber</th><th>product</th><th>quantity</th><th>date ordered</th>
 
 		<th>update</th>
 
@@ -19,6 +19,7 @@
 		<td>{{product.email}}</td>
 		<td>{{product.phonenumber}}</td>
 		<td>{{product.product}}</td>
+		<td>{{product.quantity }}</td>
 		<td>{{product.dateordered }}</td>
 		{% if perms.goodies.dateordered  %}
 		<td><a href="{% url 'updateorder' product.id %}">update</a></td>
