@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Sum
 from sale.models import Sale
-from .forms import DateForm
+from .forms import DateForm, productform, catergoryform
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
 from datetime import datetime
@@ -17,28 +17,72 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import permission_required
 
-class Productview(PermissionRequiredMixin,CreateView):
-	permission_required = 'goodies.add_product'
-	model = product
-	fields ='__all__'
-	login_url = '/accounts/login'
+# class Productview(PermissionRequiredMixin,CreateView):
+# 	permission_required = 'goodies.add_product'
+# 	model = product
+# 	fields ='__all__'
+# 	login_url = '/accounts/login'
+
+@permission_required('goodies.add_product', login_url='/loginpage/')
+def Productview(request):
+	if request.method=='POST':
+		form = productform(request.POST)
+		if form.is_valid():
+			form.save()
+			form = productform()
+			return redirect('productlist')
+	else:
+		form = productform()
+		return render(request, 'goodies/product_form.html',{'form':form})
 
 
-class Catergoryview(PermissionRequiredMixin,CreateView):
-	permission_required = 'goodies.add_catergory'
-	model = catergory
-	fields ='__all__'
-	success_url = reverse_lazy('catergory')
-	login_url = '/accounts/login'
+# class Catergoryview(PermissionRequiredMixin,CreateView):
+# 	permission_required = 'goodies.add_catergory'
+# 	model = catergory
+# 	fields ='__all__'
+# 	success_url = reverse_lazy('catergory')
+# 	login_url = '/accounts/login'
 
 
-class ProductUpdate(PermissionRequiredMixin, UpdateView):
-	permission_required = 'goodies.change_product'
-	model = product
-	fields = '__all__'
-	template_name_suffix = '_update_form'
-	login_url = '/accounts/login'
+def Catergoryview(request):
+	if request.method =='POST':
+		form = catergoryform(request.POST)
+		if form.is_valid():
+			form.save()
+			form = catergoryform()
+			return redirect('productlist')
+	else:
+		form = catergoryform()
+		return render(request, 'goodies/catergory_form.html', {'form': form})
+
+
+# class ProductUpdate(PermissionRequiredMixin, UpdateView):
+# 	permission_required = 'goodies.change_product'
+# 	model = product
+# 	fields = '__all__'
+# 	template_name_suffix = '_update_form'
+# 	login_url = '/accounts/login'
+
+def ProductUpdate(request,id):
+	obj = product.objects.get(id=id)
+	#if request.method(request.POST or None, instance=obj):
+	form = productform(request.POST or None, instance= obj)
+	if form.is_valid():
+		form.save()
+		return redirect('productlist')
+	return render(request, 'goodies/product_update_form.html', {'obj':obj,'form':form})
+
+# def Updatebook(request, id):
+# 	obj = Book.objects.get(id=id)
+# 	form = BookForm(request.POST or None, instance= obj)
+# 	if form.is_valid():
+# 		form.save()
+# 		form= BookForm()
+# 		return redirect('allbooks')
+# 	return render(request, 'libraryv2/updatebook.html', {'obj':obj,'form': form})
 
 
 class productDelete(PermissionRequiredMixin, DeleteView):
@@ -109,6 +153,7 @@ def render_pdf_view(request):
     if pisa_status.err:
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
 def reports(request):
 	if request.method == 'POST':
 		form = DateForm(request.POST)
@@ -122,6 +167,7 @@ def reports(request):
 		queryset = product.objects.all()
 		form = DateForm()
 		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
+
 def stockremaining(request):
 	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
 	queryset1=Sale.objects.values('name','item').annotate(Sum('quantity'))

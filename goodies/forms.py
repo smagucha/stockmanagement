@@ -4,13 +4,13 @@ from .models import product
 from sale.models import Sale
 from django import forms
 
-class catergoryform():
-	class meta:
+class catergoryform(ModelForm):
+	class Meta:
 		model = catergory
 		fields = '__all__'
 
 class productform(ModelForm):
-	class meta:
+	class Meta:
 		model = product
 		fields ='__all__'
 
