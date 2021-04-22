@@ -2,17 +2,17 @@
 {%load static%}
 {%block content%}
 <link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
+<form method="POST" >
+        {% csrf_token %}
+        {{ form}}
+		<input type="submit" value="view stock pdf">
+</form>
 <h1>products</h1>
 	<table border="2" id ='product'>
-	<tr><th>No</th><th>Name</th><th>catergory</th><th>sku</th><th>quantity</th><th>date created</th><th>last update</th>
-		{% if perms.goodies.goodies.change_product %}
-		<th>update</th>
-		{%endif%}
-		{% if perms.goodies.delete_product %}
-		<th>delete</th>
-		{%endif%}
-		</tr>
-		{% for product in object_list %}
+	<tr><th>No</th><th>Name</th><th>catergory</th><th>sku</th><th>quantity</th><th>date created</th><th>last update</th><th>add product</th><th>update</th><th>delete</th>
+	</tr>
+		{% for product in queryset %}
 		<tr>
 		<td>{{ forloop.counter }}</td>
 		<td><a href="{{ product.get_absolute_url }}">{{ product.name}}</a></td>
@@ -21,6 +21,7 @@
 		<td>{{product.quantity}}</td>
 		<td>{{product.date_created}}</td>
 		<td>{{product.last_update}}</td>
+		<td><a href="{% url 'addproduct' product.id %}">add</a></td>
 		{% if perms.goodies.change_product %}
 		<td><a href="updateproduct{{ product.get_absolute_url }}update">update</a></td>
 		{%endif%}

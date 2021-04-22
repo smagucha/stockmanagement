@@ -1,20 +1,19 @@
 from django.shortcuts import render,redirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView,FormMixin
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
+#from django.views.generic.edit import CreateView, UpdateView, DeleteView,FormMixin
+#from django.views.generic.detail import DetailView
+#from django.views.generic.list import ListView
 from .models import product, catergory
-from django.urls import reverse_lazy
+#from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.db.models import Sum
-from sale.models import Sale
-from .forms import DateForm, productform, catergoryform
-from django.http import HttpResponse, HttpResponseRedirect
+#from django.db.models import Sum
+from .forms import DateForm, productform, catergoryform, AddProduct
+#from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date
 from datetime import datetime
 from django.http import HttpResponse
-from django.template.loader import get_template
+#from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.contrib.staticfiles import finders
 from django.contrib.auth.decorators import login_required
@@ -46,7 +45,7 @@ def Productview(request):
 # 	success_url = reverse_lazy('catergory')
 # 	login_url = '/accounts/login'
 
-
+@permission_required('goodies.add_catergory', login_url='/loginpage/')
 def Catergoryview(request):
 	if request.method =='POST':
 		form = catergoryform(request.POST)
@@ -66,6 +65,7 @@ def Catergoryview(request):
 # 	template_name_suffix = '_update_form'
 # 	login_url = '/accounts/login'
 
+@permission_required('goodies.change_product', login_url='/loginpage/')
 def ProductUpdate(request,id):
 	obj = product.objects.get(id=id)
 	#if request.method(request.POST or None, instance=obj):
@@ -75,58 +75,84 @@ def ProductUpdate(request,id):
 		return redirect('productlist')
 	return render(request, 'goodies/product_update_form.html', {'obj':obj,'form':form})
 
-# def Updatebook(request, id):
-# 	obj = Book.objects.get(id=id)
-# 	form = BookForm(request.POST or None, instance= obj)
-# 	if form.is_valid():
-# 		form.save()
-# 		form= BookForm()
-# 		return redirect('allbooks')
-# 	return render(request, 'libraryv2/updatebook.html', {'obj':obj,'form': form})
 
 
-class productDelete(PermissionRequiredMixin, DeleteView):
-	permission_required = 'goodies.delete_product'
-	model = product
-	success_url = reverse_lazy('productlist')
-	login_url = '/accounts/login'
+# class productDelete(PermissionRequiredMixin, DeleteView):
+# 	permission_required = 'goodies.delete_product'
+# 	model = product
+# 	success_url = reverse_lazy('productlist')
+# 	login_url = '/accounts/login'
+
+@permission_required('goodies.delete_product', login_url='/loginpage/')
+def  productDelete(request, pk):
+	obj= product.objects.get(pk=pk)
+	if request.method =='POST':
+		obj.delete()
+		return redirect('productlist')
+	return render(request, 'goodies/product_confirm_delete.html', {'obj':obj})
 
 
-class productlist(LoginRequiredMixin,FormMixin, ListView):
-	model = product
-	login_url = '/accounts/login'
-	redirect_field_name = ''
-	form_class = DateForm
+# class productlist(LoginRequiredMixin,FormMixin, ListView):
+# 	model = product
+# 	login_url = '/accounts/login'
+# 	redirect_field_name = ''
+# 	form_class = DateForm
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
-	queryset = product.objects.all()
-	template_name = 'goodies/product_detail.html'
-	login_url = '/accounts/login'
+@login_required(login_url='/loginpage/')
+def productlist(request):
+	if request.method == 'POST':
+		form = DateForm(request.POST)
+		if form.is_valid():
+			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
+				form.cleaned_data['end_date']))
+			print(queryset, '\n')
+		form = DateForm()
+		return render (request, 'goodies/product_list.html', {'form': form, 'queryset': queryset})
+	else:
+		queryset = product.objects.all()
+		form = DateForm()
+		return render(request, 'goodies/product_list.html',{'form': form,'queryset':queryset})
+	# queryset = product.objects.all()
+	# return render(request, 'goodies/product_list.html',{'queryset':queryset})
 
+
+# class ProductDetailView(LoginRequiredMixin, DetailView):
+# 	queryset = product.objects.all()
+# 	template_name = 'goodies/product_detail.html'
+# 	login_url = '/accounts/login'
+@login_required(login_url='/loginpage/')
+def ProductDetailView(request, pk):
+	obj= product.objects.get(pk=pk)
+	return render(request, 'goodies/product_detail.html', {'obj':obj})
+
+@login_required(login_url='/loginpage/')
+def addproduct(request,id):
+	obj = product.objects.get(id=id)
+	if request.method =='POST':
+		form = AddProduct(request.POST)
+		if form.is_valid():
+			add=int(request.POST.get('add_quantity'))
+			obj.quantity +=add 
+			obj.save()
+			return redirect('productlist')	
+	else:
+		form = AddProduct()
+		return render(request, 'goodies/addproduct.html', {'form':form})
 
 class homeview(LoginRequiredMixin, View):
 	def get(self, request):
 		return render(request,'goodies/home.html')
 	login_url = '/accounts/login'
 
-def stockall(request):
-	title = 'ALL sale'
-	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
-	context = {
-	"title": title,
-	"queryset": queryset,
-	}
-	return render(request, "goodies/stockall.html",context)
-
 def stocklow(request):
-	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
+	queryset=product.objects.all()
 	context ={
 	"queryset": queryset,
 	}
 	return render(request, 'goodies/lowstock.html',context)
 
 def highstock(request):
-	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
+	queryset=product.objects.all()
 	context ={
 	"queryset": queryset,
 	}
@@ -154,23 +180,18 @@ def render_pdf_view(request):
        return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
-def reports(request):
-	if request.method == 'POST':
-		form = DateForm(request.POST)
-		if form.is_valid():
-			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
-				form.cleaned_data['end_date']))
-			print(queryset, '\n')
-		form = DateForm()
-		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
-	else:
-		queryset = product.objects.all()
-		form = DateForm()
-		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
+# def reports(request):
+# 	if request.method == 'POST':
+# 		form = DateForm(request.POST)
+# 		if form.is_valid():
+# 			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
+# 				form.cleaned_data['end_date']))
+# 			print(queryset, '\n')
+# 		form = DateForm()
+# 		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
+# 	else:
+# 		queryset = product.objects.all()
+# 		form = DateForm()
+# 		return render (request, 'goodies/reports.html', {'form': form, 'queryset': queryset})
 
-def stockremaining(request):
-	queryset=product.objects.values('name','productcatergory','weight').annotate(Sum('quantity'))
-	queryset1=Sale.objects.values('name','item').annotate(Sum('quantity'))
-	#print(queryset)
-	print(queryset,'\n')
-	return render(request, 'goodies/remainstock.html')
+

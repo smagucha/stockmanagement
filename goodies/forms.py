@@ -17,3 +17,6 @@ class productform(ModelForm):
 class DateForm(forms.Form):
     start_date = forms.DateField()
     end_date = forms.DateField()
+
+class AddProduct(forms.Form):
+    add_quantity = forms.IntegerField()

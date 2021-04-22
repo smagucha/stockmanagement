@@ -6,13 +6,13 @@
 	<table border="2" id ='product'>
 	<tr><th>No</th><th>Name</th><th>catergory</th><th>sku</th><th>stock</th></tr>
 		{% for product in queryset %}
-			{% if product.quantity__sum < 100 %}
+			{% if product.quantity < 100 %}
 				<tr>
 				<td>{{ forloop.counter }}</td>
 				<td>{{ product.name}}</td>
 				<td>{{product.productcatergory}}</td>
 				<td>{{product.weight}}</td>
-				<td>{{product.quantity__sum}}</td>
+				<td>{{product.quantity}}</td>
 				</tr>
 			{% endif %}
 		{%endfor%}
