@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from goodies.models import product
+from goodies.models import Product
 from django.urls import reverse
 
 class Sale(models.Model):
@@ -8,7 +8,7 @@ class Sale(models.Model):
 	buyer = models.CharField(max_length= 100)
 	buyercontact= models.IntegerField()
 	clientemail = models.EmailField()
-	item = models.ForeignKey(product, on_delete = models.CASCADE)
+	item = models.ForeignKey(Product, on_delete = models.CASCADE)
 	quantity =models.PositiveIntegerField()
 	date = models.DateTimeField(auto_now_add = True, auto_now= False)
 

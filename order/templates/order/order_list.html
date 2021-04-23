@@ -12,7 +12,7 @@
 		<th>delete</th>
 
 		</tr>
-		{% for product in object_list %}
+		{% for product in obj %}
 		<tr>
 		<td>{{ forloop.counter }}</td>
 		<td><a href="{{ product.get_absolute_url }}">{{ product.buyer}}</a></td>
@@ -25,7 +25,7 @@
 		<td><a href="{% url 'updateorder' product.id %}">update</a></td>
 		{%endif%}
 		{% if perms.goodies.delete_product %}
-		<td><a href="{% url 'deleteorder' product.id  %}delete">delete</a></td>
+		<td><a href="{% url 'deleteorder' product.id  %}">delete</a></td>
 		{% endif%}
 		</tr>
 		{% empty %}

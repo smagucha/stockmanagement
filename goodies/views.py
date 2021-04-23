@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 #from django.views.generic.edit import CreateView, UpdateView, DeleteView,FormMixin
 #from django.views.generic.detail import DetailView
 #from django.views.generic.list import ListView
-from .models import product, catergory
+from .models import Product, Catergory
 #from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.decorators import permission_required
@@ -67,7 +67,7 @@ def Catergoryview(request):
 
 @permission_required('goodies.change_product', login_url='/loginpage/')
 def ProductUpdate(request,id):
-	obj = product.objects.get(id=id)
+	obj = Product.objects.get(id=id)
 	#if request.method(request.POST or None, instance=obj):
 	form = productform(request.POST or None, instance= obj)
 	if form.is_valid():
@@ -85,7 +85,7 @@ def ProductUpdate(request,id):
 
 @permission_required('goodies.delete_product', login_url='/loginpage/')
 def  productDelete(request, pk):
-	obj= product.objects.get(pk=pk)
+	obj= Product.objects.get(pk=pk)
 	if request.method =='POST':
 		obj.delete()
 		return redirect('productlist')
@@ -103,13 +103,13 @@ def productlist(request):
 	if request.method == 'POST':
 		form = DateForm(request.POST)
 		if form.is_valid():
-			queryset = product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
+			queryset = Product.objects.filter(date_created__range=(form.cleaned_data['start_date'],
 				form.cleaned_data['end_date']))
 			print(queryset, '\n')
 		form = DateForm()
 		return render (request, 'goodies/product_list.html', {'form': form, 'queryset': queryset})
 	else:
-		queryset = product.objects.all()
+		queryset = Product.objects.all()
 		form = DateForm()
 		return render(request, 'goodies/product_list.html',{'form': form,'queryset':queryset})
 	# queryset = product.objects.all()
@@ -122,12 +122,12 @@ def productlist(request):
 # 	login_url = '/accounts/login'
 @login_required(login_url='/loginpage/')
 def ProductDetailView(request, pk):
-	obj= product.objects.get(pk=pk)
+	obj= Product.objects.get(pk=pk)
 	return render(request, 'goodies/product_detail.html', {'obj':obj})
 
 @login_required(login_url='/loginpage/')
 def addproduct(request,id):
-	obj = product.objects.get(id=id)
+	obj = Product.objects.get(id=id)
 	if request.method =='POST':
 		form = AddProduct(request.POST)
 		if form.is_valid():
@@ -161,7 +161,7 @@ def highstock(request):
 
 def render_pdf_view(request):
     template_path = 'goodies/stockreport.html'
-    queryset = product.objects.all()
+    queryset = Product.objects.all()
     context = {'queryset': queryset}
     # Create a Django response object, and specify content_type as pdf
     response = HttpResponse(content_type='application/pdf')

@@ -1,17 +1,16 @@
-from .models import product, catergory
+from .models import Product, Catergory
 from django.forms import ModelForm
-from .models import product
 from sale.models import Sale
 from django import forms
 
 class catergoryform(ModelForm):
 	class Meta:
-		model = catergory
+		model = Catergory
 		fields = '__all__'
 
 class productform(ModelForm):
 	class Meta:
-		model = product
+		model = Product
 		fields ='__all__'
 
 class DateForm(forms.Form):
