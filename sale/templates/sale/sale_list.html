@@ -5,10 +5,10 @@
 <h1>sale</h1>
 	<table border="2" id ='product'>
 	<tr><th>No</th><th>Name</th><th>buyer</th><th>buyer contact</th><th>client email</th><th>item</th><th>quantity</th><th>date</th><th>update</th><th>delete</th></tr>
-		{% for sale in object_list %}
+		{% for sale in obj %}
 		<tr>
 		<td>{{ forloop.counter }}</td>
-		<td><a href="{{ sale.get_absolute_url }}">{{ sale.name}}</a></td>
+		<td><a href="{{ sale.get_absolute_url }}">{{ sale.serverby}}</a></td>
 		<td>{{sale.buyer}}</td>
 		<td>{{sale.buyercontact}}</td>
 		<td>{{sale.clientemail}}</td>

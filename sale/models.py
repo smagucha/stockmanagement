@@ -4,7 +4,7 @@ from goodies.models import Product
 from django.urls import reverse
 
 class Sale(models.Model):
-	name = models.ForeignKey(User, on_delete=models.CASCADE)
+	serverby = models.ForeignKey(User, on_delete=models.CASCADE)
 	buyer = models.CharField(max_length= 100)
 	buyercontact= models.IntegerField()
 	clientemail = models.EmailField()
@@ -16,4 +16,4 @@ class Sale(models.Model):
 		return reverse('sale-detail', kwargs={'pk': self.pk})
 
 	def __str__(self):
-		return str(self.name)
+		return str(self.serverby)

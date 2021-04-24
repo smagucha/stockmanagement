@@ -2,12 +2,12 @@
 {%load static %}
 {%block content%}
 
-	<p>{{ object.name}}</p>
-	<p>{{object.buyer}}</p>
-	<p>{{object.buyercontact}}</p>
-	<p>{{object.clientemail}}</p>
-	<p>{{object.item}}</p>
-	<p>{{object.quantity}}</p>
-	<p>{{object.date}}</p>
+	<p><b>servedby</b>{{ obj.serverby}}</p>
+	<p><b>buyer</b>{{obj.buyer}}</p>
+	<p><b>buyer contact</b>{{obj.buyercontact}}</p>
+	<p><b>client email</b>{{obj.clientemail}}</p>
+	<p><b> item</b>{{obj.item}}</p>
+	<p><b>quantity</b>{{obj.quantity}}</p>
+	<p><b>date</b>{{obj.date}}</p>
 
 {%endblock%}

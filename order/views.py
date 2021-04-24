@@ -48,10 +48,21 @@ def Orderview(request):
 @permission_required('order.change_order', login_url='/loginpage/')
 def orderupdate(request, pk):
     obj = Order.objects.get(id = pk)
+    productid = obj.product.id
+    obj1= Product.objects.get(id = productid)
     form = OrderForm(request.POST or None, instance= obj)
     if form.is_valid():
+        obj1.quantity += obj.quantity
+        obj1.save()
+        print('this is before update', obj1.quantity)
         form.save()
+        orderquantity= int(request.POST.get('quantity'))
+        obj1.quantity -= orderquantity
+        obj1.save()
+        print('this is after update', obj1.quantity)
         return redirect('orderlist')
+    
+   
     return render(request, 'order/order_update_form.html',{'form': form, 'obj':obj })
 
 # class orderdelete(PermissionRequiredMixin, DeleteView):
@@ -63,9 +74,13 @@ def orderupdate(request, pk):
 @permission_required('order.delete_order', login_url='/loginpage/')
 def orderdelete(request, pk):
     obj = Order.objects.get(id=pk)
-    print(obj.product.id)
+    productid=obj.product.id
+    obj1 = Product.objects.get(id = productid)
     if request.method =='POST':
+        obj1.quantity += obj.quantity
+        obj1.save()
         obj.delete()
+        return redirect('orderlist')
     return render(request, 'order/order_confirm_delete.html',{'obj': obj})
 
 

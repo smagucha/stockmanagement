@@ -2,16 +2,10 @@
 {%load static%}
 {%block content%}
 <link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
-<h1>products</h1>
+<h1>orders</h1>
 
 	<table border="2" id ='product'>
-	<tr><th>No</th><th>buyer</th><th>email</th><th>phonenumber</th><th>product</th><th>quantity</th><th>date ordered</th>
-
-		<th>update</th>
-
-		<th>delete</th>
-
-		</tr>
+	<tr><th>No</th><th>buyer</th><th>email</th><th>phonenumber</th><th>product</th><th>quantity</th><th>date ordered</th><th>update</th><th>delete</th></tr>
 		{% for product in obj %}
 		<tr>
 		<td>{{ forloop.counter }}</td>

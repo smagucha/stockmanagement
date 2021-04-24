@@ -145,14 +145,14 @@ class homeview(LoginRequiredMixin, View):
 	login_url = '/accounts/login'
 
 def stocklow(request):
-	queryset=product.objects.all()
+	queryset=Product.objects.all()
 	context ={
 	"queryset": queryset,
 	}
 	return render(request, 'goodies/lowstock.html',context)
 
 def highstock(request):
-	queryset=product.objects.all()
+	queryset=Product.objects.all()
 	context ={
 	"queryset": queryset,
 	}

@@ -4,7 +4,7 @@ from .models import Sale
 
 
 class saleform(ModelForm):
-	class meta:
+	class Meta:
 		model = Sale
 		fields ='__all__'
 

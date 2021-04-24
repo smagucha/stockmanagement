@@ -4,11 +4,10 @@
 <link href="{% static 'vendor/bootstrap/css/table.css' %}" rel="stylesheet">
 <h1>products</h1>
 	<table border="2" id ='product'>
-	<tr><th>No</th><th>Name</th><th>item</th><th>sales</th></tr>
+	<tr><th>No</th><th>item</th><th>sales</th></tr>
 		{% for product in queryset %}
 		<tr>
 		<td>{{forloop.counter}}</td>
-		<td>{{product.name}}</td>
 		<td>{{product.item}}</td>
 		<td>{{product.quantity__sum}}</td>
 		</tr>
